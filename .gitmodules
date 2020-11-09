@@ -1,0 +1,9 @@
+[submodule "third-party/junction"]
+	path = third-party/junction
+	url = https://github.com/preshing/junction.git
+[submodule "third-party/folly"]
+	path = third-party/folly
+	url = https://github.com/facebook/folly.git
+[submodule "third-party/tbb"]
+	path = third-party/tbb
+	url = https://github.com/oneapi-src/oneTBB.git
