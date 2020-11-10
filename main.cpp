@@ -19,10 +19,9 @@ class TestingFixture : public ::benchmark::Fixture {
   };
 
   int64_t rand_int64() {
-    thread_local static std::mt19937_64           rng(std::random_device {}());
-    thread_local std::uniform_real_distribution<> urd;
-    return (int64_t)urd(rng,
-                        decltype(urd)::param_type {0, (double)std::numeric_limits<int64_t>::max()});
+    thread_local static std::mt19937_64                  rng(std::random_device {}());
+    thread_local std::uniform_real_distribution<int64_t> urd;
+    return urd(rng, decltype(urd)::param_type {0, std::numeric_limits<int64_t>::max()});
   };
 
   tbb::concurrent_hash_map<int64_t, std::shared_ptr<doc_class>> tbb_map;

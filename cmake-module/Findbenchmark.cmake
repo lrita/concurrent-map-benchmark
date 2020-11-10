@@ -8,7 +8,7 @@ find_path(benchmark_INCLUDE_DIR benchmark/benchmark.h)
 find_library(
   benchmark_LIBRARY
   NAMES benchmark
-  PATHS ${benchmark_ROOT_DIR} /usr/local
+  PATHS ${benchmark_ROOT_DIR} /usr /usr/local
   PATH_SUFFIXES lib lib64
   NO_DEFAULT_PATH)
 find_library(benchmark_LIBRARY NAMES benchmark)
@@ -16,7 +16,7 @@ find_library(benchmark_LIBRARY NAMES benchmark)
 find_library(
   benchmark_main_LIBRARY
   NAMES benchmark_main
-  PATHS ${benchmark_ROOT_DIR} /usr/local
+  PATHS ${benchmark_ROOT_DIR} /usr /usr/local
   PATH_SUFFIXES lib lib64
   NO_DEFAULT_PATH)
 
