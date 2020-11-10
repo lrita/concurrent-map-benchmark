@@ -19,8 +19,8 @@ class TestingFixture : public ::benchmark::Fixture {
   };
 
   int64_t rand_int64() {
-    thread_local static std::mt19937_64                  rng(std::random_device {}());
-    thread_local std::uniform_real_distribution<int64_t> urd;
+    thread_local static std::mt19937_64                 rng(std::random_device {}());
+    thread_local std::uniform_int_distribution<int64_t> urd;
     return urd(rng, decltype(urd)::param_type {0, std::numeric_limits<int64_t>::max()});
   };
 
@@ -37,6 +37,7 @@ BENCHMARK_DEFINE_F(TestingFixture, get_tbb_map)(benchmark::State &st) {
     auto                              id = rand_int64();
     decltype(tbb_map)::const_accessor result {};
     tbb_map.find(result, id);
+    benchmark::DoNotOptimize(result);
   }
 }
 
