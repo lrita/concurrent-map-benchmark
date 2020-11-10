@@ -8,10 +8,14 @@ set(CMAKE_MODULE_PATH ${TOP_SOURCE_DIR}/cmake-module)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -mavx -ffast-math -std=c++14")
 
 find_package(benchmark REQUIRED)
+find_package(tbb REQUIRED)
+
+include_directories(${TOP_SOURCE_DIR}/third-party/tbb/include)
 
 file(GLOB TOP_SOURCE_CODE *.cpp)
 add_executable(mbenchmark ${TOP_SOURCE_CODE})
 target_link_libraries(mbenchmark
   pthread
+  tbb
   benchmark
   benchmark_main)
