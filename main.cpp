@@ -36,7 +36,7 @@ class TestingFixture : public ::benchmark::Fixture {
     return urd(rng, decltype(urd)::param_type {0, max});
   };
 
-  int64_t rand_id() { return id_vec[rand_int64(id_vec.size())]; }
+  int64_t rand_id() { return id_vec[rand_int64(id_vec.size() - 1)]; }
 
   std::shared_ptr<doc_class> get_from_tbb_map(int64_t id) {
     std::shared_ptr<doc_class>        v;
