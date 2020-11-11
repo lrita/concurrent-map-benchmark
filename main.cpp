@@ -6,6 +6,7 @@
 #include <benchmark/benchmark.h>
 #include <tbb/concurrent_hash_map.h>
 #include <junction/ConcurrentMap_Leapfrog.h>
+#include <folly/concurrency/ConcurrentHashMap.h>
 
 class doc_class {
   double x = 0;
@@ -27,6 +28,7 @@ class TestingFixture : public ::benchmark::Fixture {
       id_vec.push_back(id);
       tbb_map.insert(std::make_pair(id, doc));
       junction_map.assign(id, new doc_class_holder {doc});
+      folly_map.insert(id, doc);
     }
   };
 
@@ -56,13 +58,29 @@ class TestingFixture : public ::benchmark::Fixture {
     return v;
   }
 
+  std::shared_ptr<doc_class> get_from_folly_map(int64_t id) {
+    std::shared_ptr<doc_class> v;
+    auto                       it = folly_map.find(id);
+    if (it != folly_map.cend()) {
+      v = (*it).second;
+    }
+    return v;
+  }
+
   std::vector<int64_t>                                          id_vec;
   tbb::concurrent_hash_map<int64_t, std::shared_ptr<doc_class>> tbb_map;
   junction::ConcurrentMap_Leapfrog<int64_t, doc_class_holder *> junction_map;
+  folly::ConcurrentHashMap<int64_t, std::shared_ptr<doc_class>> folly_map;
 };
 
 BENCHMARK_DEFINE_F(TestingFixture, get_folly_map)(benchmark::State &st) {
   while (st.KeepRunning()) {
+    auto id  = rand_id();
+    auto doc = get_from_folly_map(id);
+    if (!doc) {
+      st.SkipWithError("get miss");
+    }
+    benchmark::DoNotOptimize(doc);
   }
 }
 
