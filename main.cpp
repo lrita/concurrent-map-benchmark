@@ -70,6 +70,9 @@ BENCHMARK_DEFINE_F(TestingFixture, get_tbb_map)(benchmark::State &st) {
   while (st.KeepRunning()) {
     auto id  = rand_id();
     auto doc = get_from_tbb_map(id);
+    if (!doc) {
+      st.SkipWithError("get miss");
+    }
     benchmark::DoNotOptimize(doc);
   }
 }
@@ -78,6 +81,9 @@ BENCHMARK_DEFINE_F(TestingFixture, get_junction_map)(benchmark::State &st) {
   while (st.KeepRunning()) {
     auto id  = rand_id();
     auto doc = get_from_junction_map(id);
+    if (!doc) {
+      st.SkipWithError("get miss");
+    }
     benchmark::DoNotOptimize(doc);
   }
 }
